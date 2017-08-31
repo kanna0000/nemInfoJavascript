@@ -1,0 +1,19 @@
+ul{
+  list-style: none;
+}
+h1{
+  margin: auto;
+}
+.discription{
+}
+.network{
+  height: 10px;
+  margin: 20px;
+}
+.mosaic{
+  height: 10px;
+  margin: 20px;
+}
+.mosaic p{
+  margin-bottom: 0;
+}

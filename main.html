@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>nem info</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="nem-sdk.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <noscript>
+      JavaScript is unable
+    </noscript>
+  </head>
+  <body>
+    <div class="discription">
+      <h3>NEM INFO</h3>
+    </div>
+    <div class="network">
+      <table class="networkStatus" id=networkStatus>
+        <tr id=row>
+          <td>Height of NEM blockchain: </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="mosaicQuantity">
+      <p>Enter address:</p>
+      <input type="text" id="address" size="70">
+      <input type="button" id="btn1" value="Submit">
+      <table id="mosaicQuantityTable" border="1">
+        <tr>
+          <th>mosaic name</th>
+          <th>amount</th>
+        </tr>
+      </table>
+    </div>
+    <div class="mosaicTx">
+      <table id="mosaicTxTable" border="1">
+        <tr>
+          <th>time</th>
+          <th>mosaic name</th>
+          <th>type</th>
+          <th>quantity</th>
+        </tr>
+      </table>
+    </div>
+
+  </body>
+</html>
