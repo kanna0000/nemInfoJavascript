@@ -26,10 +26,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //get namespace data
     nem.com.requests.account.namespaces.owned(endpoint, address).then(function(res){
+      var namespaceTable = document.getElementById("namespaceTable");
+      while(namespaceTable.rows[1]) namespaceTable.deleteRow(1);
       var data = res["data"]
       for(var key in data){
         var namespaceName = data[key]["fqn"];
-        var namespaceTable = document.getElementById("namespaceTable");
         var newtr = namespaceTable.insertRow(-1);
         var namespaceNameCell = newtr.insertCell(-1);
         var namespaceNameNode = document.createTextNode(namespaceName);
