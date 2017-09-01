@@ -23,6 +23,20 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //get address
     var address = document.getElementById("address").value;
+
+    //get namespace data
+    nem.com.requests.account.namespaces.owned(endpoint, address).then(function(res){
+      var data = res["data"]
+      for(var key in data){
+        var namespaceName = data[key]["fqn"];
+        var namespaceTable = document.getElementById("namespaceTable");
+        var newtr = namespaceTable.insertRow(-1);
+        var namespaceNameCell = newtr.insertCell(-1);
+        var namespaceNameNode = document.createTextNode(namespaceName);
+        namespaceNameCell.appendChild(namespaceNameNode);
+      }
+    })
+
     //get mosaic data
     nem.com.requests.account.mosaics.owned(endpoint, address).then(function(res){
       var table = document.getElementById("mosaicQuantityTable");
@@ -60,23 +74,19 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //mosaic transaction
     nem.com.requests.account.transactions.all(endpoint, address).then(function(res){
-      console.log(res);
       //search transaction data
       for(var i = 0, len = res["data"].length; i < len; i++){
         var transaction = res["data"][i]["transaction"]
         if("mosaics" in transaction){
-          console.log("mosaic exist");
           var mosaic = transaction["mosaics"]
           //search mosaic data
           for(var j = 0, len2 = mosaic.length; j < len2; j++){
             var mosaicTx = mosaic[j]
             if(mosaicTx["mosaicId"]["name"] == "xem"){
-              console.log("xem");
             }else {
               //prepare data
               var timestamp = transaction["timeStamp"];
               var date = nem.utils.format.nemDate(timestamp)
-              console.log(date);
               var mosaicQuantity = mosaicTx["quantity"]
               var mosaicName = mosaicTx["mosaicId"]["name"]
               if (transaction["recipient"] == address) {
@@ -109,8 +119,6 @@ document.addEventListener("DOMContentLoaded", function(){
               mosaicQuantityCell.appendChild(quantity);
             }
           }
-        }else {
-          console.log("no mosaic");
         }
       }
     });
