@@ -18,19 +18,15 @@ document.addEventListener("DOMContentLoaded", function(){
     height.appendChild(resHeight);
   });
 
-  //when click submit
-  document.getElementById("btn1").onclick = function(){
+  //list of address
+  var addresses = [];
 
-    //get address
-    var address = document.getElementById("address").value;
-    var addresses = [];
-    addresses.push(address)
-    console.log(addresses);
-    //get namespace data
+  //functions
+  function namespaceTable(endpoint, address){
     nem.com.requests.account.namespaces.owned(endpoint, address).then(function(res){
       var namespaceTable = document.getElementById("namespaceTable");
       while(namespaceTable.rows[1]) namespaceTable.deleteRow(1);
-      var data = res["data"]
+      var data = res["data"];
       console.log(data);
       for(var key in data){
         var namespaceName = data[key]["fqn"];
@@ -40,8 +36,9 @@ document.addEventListener("DOMContentLoaded", function(){
         namespaceNameCell.appendChild(namespaceNameNode);
       }
     })
+  }
 
-    //get mosaic data
+  function mosaicTable(endpoint, address){
     nem.com.requests.account.mosaics.owned(endpoint, address).then(function(res){
       var table = document.getElementById("mosaicQuantityTable");
       //delet all rows before add new rows
@@ -76,9 +73,9 @@ document.addEventListener("DOMContentLoaded", function(){
     }, function(err) {
   	console.error(err)
     });
-
-
-    //mosaic transaction
+  }
+  
+  function mosaicTxTable(endpoint, address){
     nem.com.requests.account.transactions.all(endpoint, address).then(function(res){
       //search transaction data
       var data = res["data"]
@@ -129,9 +126,21 @@ document.addEventListener("DOMContentLoaded", function(){
         }
       }
     });
-
   }
+  //when click submit
+  document.getElementById("btn1").onclick = function(){
 
+    //get address
+    var address = document.getElementById("address").value;
+    addresses.push(address)
+    console.log(addresses);
+    //get namespace data
+    namespaceTable(endpoint, address)
+    //get mosaic data
+    mosaicTable(endpoint, address)
+    //mosaic transaction
+    mosaicTxTable(endpoint, address)
+  }
 });
 
 // var common = nem.model.objects.create("common")(password, privateKey)
