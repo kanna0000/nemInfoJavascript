@@ -10,6 +10,21 @@ h1{
   height: 10px;
   margin: 20px;
 }
+.namespace{
+  float: left;
+}
+#namespaceTable{
+  margin: 5px;
+}
+.mosaicQuantity{
+  float: left;
+}
+#mosaicQuantityTable{
+  margin: 5px;
+}
+#mosaicTxTable{
+  margin: 5px;
+}
 .mosaic{
   height: 10px;
   margin: 20px;
