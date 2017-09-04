@@ -23,7 +23,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //get address
     var address = document.getElementById("address").value;
-
+    var addresses = [];
+    addresses.push(address)
+    console.log(addresses);
     //get namespace data
     nem.com.requests.account.namespaces.owned(endpoint, address).then(function(res){
       var namespaceTable = document.getElementById("namespaceTable");
@@ -44,10 +46,12 @@ document.addEventListener("DOMContentLoaded", function(){
       var table = document.getElementById("mosaicQuantityTable");
       //delet all rows before add new rows
       while(table.rows[1]) table.deleteRow(1);
-      for(var i = 0, len = res["data"].length; i < len; i++){
+      console.log(res);
+      var data = res["data"]
+      for(var key in data){
         //prepare data
-        var name = res["data"][i]["mosaicId"]["name"];
-        var quantity = res["data"][i]["quantity"];
+        var name = data[key]["mosaicId"]["name"];
+        var quantity = data[key]["quantity"];
         //create row
         var newtr = table.insertRow(-1);
         //create cell
@@ -77,8 +81,9 @@ document.addEventListener("DOMContentLoaded", function(){
     //mosaic transaction
     nem.com.requests.account.transactions.all(endpoint, address).then(function(res){
       //search transaction data
-      for(var i = 0, len = res["data"].length; i < len; i++){
-        var transaction = res["data"][i]["transaction"]
+      var data = res["data"]
+      for(var key in data){
+        var transaction = data[key]["transaction"]
         if("mosaics" in transaction){
           var mosaic = transaction["mosaics"]
           //search mosaic data
