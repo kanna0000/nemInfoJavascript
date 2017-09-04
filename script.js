@@ -32,16 +32,10 @@ document.addEventListener("DOMContentLoaded", function(){
       console.log(data);
       for(var key in data){
         var namespaceName = data[key]["fqn"];
-        var namespaceHeight = data[key]["height"];
-        console.log(namespaceHeight);
-        var namespaceCreatedAt = nem.utils.format.nemDate(namespaceHeight)
         var newtr = namespaceTable.insertRow(-1);
         var namespaceNameCell = newtr.insertCell(-1);
-        var namespaceCreatedAtCell = newtr.insertCell(-1);
         var namespaceNameNode = document.createTextNode(namespaceName);
-        var namespaceCreatedAtNode = document.createTextNode(namespaceCreatedAt);
         namespaceNameCell.appendChild(namespaceNameNode);
-        namespaceCreatedAtCell.appendChild(namespaceCreatedAtNode);
       }
     })
 
