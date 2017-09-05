@@ -2,47 +2,23 @@
 var nem = require("nem-sdk").default;
 
 //create endpoint = NIS
-var endpoint = nem.model.objects.create("endpoint")("http://104.128.226.60", 7890);
+var endpoint = nem.model.objects.create("endpoint")("http://54.79.36.199", 7890);
 
 //ページ読み込みまでjavascript待つ
 document.addEventListener("DOMContentLoaded", function(){
   //get network status
   nem.com.requests.chain.height(endpoint).then(function(res){
-    //get row
     var row = document.getElementById("row");
-    //create text node
     var resHeight = document.createTextNode(res["height"]);
-    //add new cell to row
     var height = row.insertCell(-1);
-    //add to Node
     height.appendChild(resHeight);
   });
 
-  //list of address
-  var addresses = [];
-
-  //functions
-  function createTable(id, names){
-    //names might be list
-    var tablediv = document.getElementById(id);
-    var table = document.createElement('table');
-    tablediv.appendChild(table);
-    var newtr = table.insertRow(-1);
-    for(var name of names){
-      var newth = document.createElement('th');
-      var header = document.createTextNode(name);
-      newtr.appendChild(newth);
-      newth.appendChild(header);
-    }
-    return table
-  }
-
   function namespaceTable(endpoint, address){
     nem.com.requests.account.namespaces.owned(endpoint, address).then(function(res){
-      var table = createTable('namespace', ['namespace'])
+      var table = document.getElementById('namespace')
       while(table.rows[1]) table.deleteRow(1);
       var data = res["data"];
-      console.log(data);
       for(var key in data){
         var namespaceName = data[key]["fqn"];
         var newtr = table.insertRow(-1);
@@ -53,9 +29,9 @@ document.addEventListener("DOMContentLoaded", function(){
     })
   }
 
-  function mosaicTable(endpoint, address){
+  function mosaicQuantityTable(endpoint, address){
     nem.com.requests.account.mosaics.owned(endpoint, address).then(function(res){
-      var table = createTable('mosaicQuantity', ["mosaic name", "amount"])
+      var table = document.getElementById('mosaicQuantity')
       while(table.rows[1]) table.deleteRow(1);
       var data = res["data"]
       for(var key in data){
@@ -90,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
   function mosaicTxTable(endpoint, address){
     nem.com.requests.account.transactions.all(endpoint, address).then(function(res){
+      var table = document.getElementById('mosaicTxTable')
+      while(table.rows[1]) table.deleteRow(1);
       //search transaction data
       var data = res["data"]
       for(var key in data){
@@ -97,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function(){
         if("mosaics" in transaction){
           var mosaic = transaction["mosaics"]
           //search mosaic data
-          for(var j = 0, len2 = mosaic.length; j < len2; j++){
+          for(var j in mosaic){
             var mosaicTx = mosaic[j]
             if(mosaicTx["mosaicId"]["name"] == "xem"){
             }else {
@@ -113,11 +91,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 var txType = "outgoing"
                 var mosaicQuantity = "-" + mosaicQuantity
               }
-              //change table
-              var table = createTable('mosaicTxTable', ['time', 'mosaic name', 'type', 'quantity'])
-              //var mosaicTxTable = document.getElementById("mosaicTxTable")
-              //delet all rows before add new rows
-              //while(mosaicTxTable.rows[1]) mosaicTxTable.deleteRow(1);
               //create row
               var newtr = table.insertRow(-1);
               //create cell
@@ -141,33 +114,34 @@ document.addEventListener("DOMContentLoaded", function(){
       }
     });
   }
+  //list of address
+  var addresses = [];
   //when click submit
   document.getElementById("btn1").onclick = function(){
-
     //get address
     var address = document.getElementById("address").value;
-    //definded in **. List of address
-    addresses.push(address)
-    console.log(addresses);
-    for (var address of addresses){
-      //get namespace data
-      namespaceTable(endpoint, address)
-      //get mosaic data
-      mosaicTable(endpoint, address)
-      //mosaic transaction
-      mosaicTxTable(endpoint, address)
+    //if address is first time
+    if (addresses.indexOf(address) == -1){
+      addresses.push(address)
+    }else {
+      exit;
     }
+    if (addresses.length > 1){
+      var container = document.getElementById('tables');
+      var table = document.getElementsByName('table');
+      var firstAddress = document.getElementById('firstAddress');
+      var anotherAddress = table[0].cloneNode(true);
+      console.log(anotherAddress);
+      anotherAddress.name = 'table';
+      container.appendChild(anotherAddress);
+    }
+    //create tables
+    namespaceTable(endpoint, address);
+    mosaicQuantityTable(endpoint, address);
+    mosaicTxTable(endpoint, address);
+    //flaot each address info
+    var target = document.getElementsByName('table');
+    target[0].style.cssFloat = 'left';
+
   }
 });
-
-// var common = nem.model.objects.create("common")(password, privateKey)
-//
-//
-// //prepare transaction send 10xem
-// var transferTransaction = nem.model.objects.create("transferTransaction")("TA5JGQFARU255WAK3UGPTPCYNHMD5RSFUWX7Y55E", 10);
-// console.log(transferTransaction);
-//
-// var transactionEntity =  nem.model.transactions.prepare("transferTransaction")(common, transferTransaction, nem.model.network.data.testnet.id)
-//
-// send
-// nem.model.transactions.send(commn, transactionEntity, endpoint)

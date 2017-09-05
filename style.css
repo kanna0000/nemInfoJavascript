@@ -8,13 +8,11 @@ table, th, td{
   border-collapse: collapse;
   border: 1px solid;
 }
-.discription{
+table{
+  float: left;
+  margin: 5px;
 }
 .network{
   height: 10px;
   margin: 20px;
-}
-.table{
-  margin: 5px;
-  float: left;
 }
