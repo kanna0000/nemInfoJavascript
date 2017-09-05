@@ -24,7 +24,15 @@ document.addEventListener("DOMContentLoaded", function(){
   //functions
   function namespaceTable(endpoint, address){
     nem.com.requests.account.namespaces.owned(endpoint, address).then(function(res){
-      var namespaceTable = document.getElementById("namespaceTable");
+      var tablediv = document.getElementById('namespace')
+      var namespaceTable = document.createElement('table');
+      namespaceTable.id = 'namespaceTable';
+      tablediv.appendChild(namespaceTable);
+      var newtr = namespaceTable.insertRow(-1);
+      var newth = document.createElement('th');
+      var headerNode = document.createTextNode('namespace');
+      newtr.appendChild(newth);
+      newth.appendChild(headerNode);
       while(namespaceTable.rows[1]) namespaceTable.deleteRow(1);
       var data = res["data"];
       console.log(data);
@@ -74,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function(){
   	console.error(err)
     });
   }
-  
+
   function mosaicTxTable(endpoint, address){
     nem.com.requests.account.transactions.all(endpoint, address).then(function(res){
       //search transaction data
@@ -132,14 +140,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //get address
     var address = document.getElementById("address").value;
+    //definded in **. List of address
     addresses.push(address)
     console.log(addresses);
-    //get namespace data
-    namespaceTable(endpoint, address)
-    //get mosaic data
-    mosaicTable(endpoint, address)
-    //mosaic transaction
-    mosaicTxTable(endpoint, address)
+    for (var address of addresses){
+      //get namespace data
+      namespaceTable(endpoint, address)
+      //get mosaic data
+      mosaicTable(endpoint, address)
+      //mosaic transaction
+      mosaicTxTable(endpoint, address)
+    }
   }
 });
 
