@@ -19,6 +19,7 @@ table, th, td{
 }
 #namespaceTable{
   margin: 5px;
+  float: left;
 }
 .mosaicQuantity{
   float: left;

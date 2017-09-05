@@ -22,23 +22,30 @@ document.addEventListener("DOMContentLoaded", function(){
   var addresses = [];
 
   //functions
+  function createTable(id, names){
+    //names might be list
+    var tablediv = document.getElementById(id);
+    var table = document.createElement('table');
+    tablediv.appendChild(table);
+    var newtr = table.insertRow(-1);
+    for(var name of names){
+      var newth = document.createElement('th');
+      var header = document.createTextNode(name);
+      newtr.appendChild(newth);
+      newth.appendChild(header);
+    }
+    return table
+  }
+
   function namespaceTable(endpoint, address){
     nem.com.requests.account.namespaces.owned(endpoint, address).then(function(res){
-      var tablediv = document.getElementById('namespace')
-      var namespaceTable = document.createElement('table');
-      namespaceTable.id = 'namespaceTable';
-      tablediv.appendChild(namespaceTable);
-      var newtr = namespaceTable.insertRow(-1);
-      var newth = document.createElement('th');
-      var headerNode = document.createTextNode('namespace');
-      newtr.appendChild(newth);
-      newth.appendChild(headerNode);
-      while(namespaceTable.rows[1]) namespaceTable.deleteRow(1);
+      var table = createTable('namespace', ['namespace'])
+      while(table.rows[1]) table.deleteRow(1);
       var data = res["data"];
       console.log(data);
       for(var key in data){
         var namespaceName = data[key]["fqn"];
-        var newtr = namespaceTable.insertRow(-1);
+        var newtr = table.insertRow(-1);
         var namespaceNameCell = newtr.insertCell(-1);
         var namespaceNameNode = document.createTextNode(namespaceName);
         namespaceNameCell.appendChild(namespaceNameNode);
@@ -48,10 +55,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
   function mosaicTable(endpoint, address){
     nem.com.requests.account.mosaics.owned(endpoint, address).then(function(res){
-      var table = document.getElementById("mosaicQuantityTable");
-      //delet all rows before add new rows
+      var table = createTable('mosaicQuantity', ["mosaic name", "amount"])
       while(table.rows[1]) table.deleteRow(1);
-      console.log(res);
       var data = res["data"]
       for(var key in data){
         //prepare data
@@ -109,11 +114,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 var mosaicQuantity = "-" + mosaicQuantity
               }
               //change table
-              var mosaicTxTable = document.getElementById("mosaicTxTable")
+              var table = createTable('mosaicTxTable', ['time', 'mosaic name', 'type', 'quantity'])
+              //var mosaicTxTable = document.getElementById("mosaicTxTable")
               //delet all rows before add new rows
               //while(mosaicTxTable.rows[1]) mosaicTxTable.deleteRow(1);
               //create row
-              var newtr = mosaicTxTable.insertRow(-1);
+              var newtr = table.insertRow(-1);
               //create cell
               var dateCell = newtr.insertCell(-1);
               var mosaicNameCell = newtr.insertCell(-1);
