@@ -14,26 +14,7 @@ table, th, td{
   height: 10px;
   margin: 20px;
 }
-.namespace{
-  float: left;
-}
-#namespaceTable{
+.table{
   margin: 5px;
   float: left;
-}
-.mosaicQuantity{
-  float: left;
-}
-#mosaicQuantityTable{
-  margin: 5px;
-}
-#mosaicTxTable{
-  margin: 5px;
-}
-.mosaic{
-  height: 10px;
-  margin: 20px;
-}
-.mosaic p{
-  margin-bottom: 0;
 }
