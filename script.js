@@ -147,10 +147,15 @@ document.addEventListener("DOMContentLoaded", function(){
         var anotherAddress = table[0].cloneNode(true);
         anotherAddress.name = 'table';
         container.appendChild(anotherAddress);
-        console.log('hello');
       }
 
       //create tables
+      var head = document.getElementById('tableHead');
+      var headNode = document.createTextNode(address);
+      while (head.firstChild) {
+        head.removeChild(head.firstChild);
+      }
+      head.appendChild(headNode);
       namespaceTable(endpoint, address);
       mosaicQuantityTable(endpoint, address);
       mosaicTxTable(endpoint, address);
