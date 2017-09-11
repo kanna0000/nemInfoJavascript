@@ -114,34 +114,51 @@ document.addEventListener("DOMContentLoaded", function(){
       }
     });
   }
+
   //list of address
   var addresses = [];
   //when click submit
   document.getElementById("btn1").onclick = function(){
     //get address
     var address = document.getElementById("address").value;
-    //if address is first time
-    if (addresses.indexOf(address) == -1){
+
+    //execute only first time
+    if (addresses.indexOf(address) == -1) {
       addresses.push(address)
-    }else {
-      exit;
+      //get list
+      var ul = document.getElementById('addressList');
+      while (ul.lastChild) {
+        ul.removeChild(ul.lastChild);
+      }
+      //make list
+      for (address of addresses) {
+        var item = document.createTextNode(address);
+        var newli = document.createElement('li');
+        newli.appendChild(item);
+        ul.appendChild(newli);
+      }
+      console.log(addresses);
+      //only execute firsttime
+      if (addresses.length>1){
+        //container of each address
+        var container = document.getElementById('tables');
+        var table = document.getElementsByName('table');
+        var firstAddress = document.getElementById('firstAddress');
+        var anotherAddress = table[0].cloneNode(true);
+        anotherAddress.name = 'table';
+        container.appendChild(anotherAddress);
+        console.log('hello');
+      }
+
+      //create tables
+      namespaceTable(endpoint, address);
+      mosaicQuantityTable(endpoint, address);
+      mosaicTxTable(endpoint, address);
+      //flaot each address info
+      var target = document.getElementsByName('table');
+      target[0].style.cssFloat = 'left';
+
     }
-    if (addresses.length > 1){
-      var container = document.getElementById('tables');
-      var table = document.getElementsByName('table');
-      var firstAddress = document.getElementById('firstAddress');
-      var anotherAddress = table[0].cloneNode(true);
-      console.log(anotherAddress);
-      anotherAddress.name = 'table';
-      container.appendChild(anotherAddress);
-    }
-    //create tables
-    namespaceTable(endpoint, address);
-    mosaicQuantityTable(endpoint, address);
-    mosaicTxTable(endpoint, address);
-    //flaot each address info
-    var target = document.getElementsByName('table');
-    target[0].style.cssFloat = 'left';
 
   }
 });
