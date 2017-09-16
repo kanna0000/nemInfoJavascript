@@ -4,6 +4,9 @@ ul{
 h1{
   margin: auto;
 }
+table#networkStatus, tr#height td{
+  border: none;
+}
 table, th, td{
   border-collapse: collapse;
   border: 1px solid;

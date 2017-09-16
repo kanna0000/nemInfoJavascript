@@ -2,13 +2,13 @@
 var nem = require("nem-sdk").default;
 
 //create endpoint = NIS
-var endpoint = nem.model.objects.create("endpoint")("http://54.79.36.199", 7890);
+var endpoint = nem.model.objects.create("endpoint")("http://104.128.226.60", 7890);
 
 //ページ読み込みまでjavascript待つ
 document.addEventListener("DOMContentLoaded", function(){
   //get network status
   nem.com.requests.chain.height(endpoint).then(function(res){
-    var row = document.getElementById("row");
+    var row = document.getElementById("height");
     var resHeight = document.createTextNode(res["height"]);
     var height = row.insertCell(-1);
     height.appendChild(resHeight);
@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function(){
         var namespaceNameCell = newtr.insertCell(-1);
         var namespaceNameNode = document.createTextNode(namespaceName);
         namespaceNameCell.appendChild(namespaceNameNode);
+        console.log(res);
       }
     })
   }
