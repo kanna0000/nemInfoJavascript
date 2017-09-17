@@ -3,7 +3,7 @@ var nem = require("nem-sdk").default;
 
 //create endpoint = NIS
 //select nis from list randomly
-var nisList = ["104.128.226.60", "23.228.67.85", "37.120.188.83", "188.68.50.161", 	"150.95.145.157"];
+var nisList = ["104.128.226.60", "23.228.67.85", "37.120.188.83", "188.68.50.161", "150.95.145.157"];
 var nis = nisList[Math.floor( Math.random() * nisList.length)];
 var endpoint = nem.model.objects.create("endpoint")(`http://${nis}`, 7890);
 console.log(nis);
